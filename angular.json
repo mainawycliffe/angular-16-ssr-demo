@@ -5,7 +5,14 @@
   "schematics": {
     "@schematics/angular:component": {
       "inlineStyle": true,
-      "inlineTemplate": true
+      "inlineTemplate": true,
+      "skipTests": true,
+      "flat": true,
+      "standalone": true
+    },
+    "@schematics/angular:service": {
+      "skipTests": true,
+      "flat": true
     }
   },
   "projects": {
@@ -113,5 +120,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
