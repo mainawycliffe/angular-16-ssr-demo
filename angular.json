@@ -37,7 +37,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-google-books-ui",
+            "outputPath": "dist/angular-google-books-ui/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -117,6 +117,61 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/angular-google-books-ui/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "angular-google-books-ui:build:development",
+              "serverTarget": "angular-google-books-ui:server:development"
+            },
+            "production": {
+              "browserTarget": "angular-google-books-ui:build:production",
+              "serverTarget": "angular-google-books-ui:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "angular-google-books-ui:build:production",
+              "serverTarget": "angular-google-books-ui:server:production"
+            },
+            "development": {
+              "browserTarget": "angular-google-books-ui:build:development",
+              "serverTarget": "angular-google-books-ui:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
