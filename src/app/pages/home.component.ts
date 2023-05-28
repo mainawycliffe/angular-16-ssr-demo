@@ -10,6 +10,7 @@ import {
   of,
   startWith,
   switchMap,
+  tap,
 } from 'rxjs';
 import { LetDirective } from '@rx-angular/template/let';
 import { BookCardComponent } from '../components/book-card.component';
@@ -34,8 +35,10 @@ type HomeState = {
         *ngIf="isLoading"
         class="flex flex-col flex-1 justify-center items-center"
       >
-        <div class="flex flex-row gap-4 text-2xl font-bold items-center">
-          <fa-icon [icon]="spinnerIcon" [spin]="true" size="2x"></fa-icon>
+        <div
+          class="flex flex-row gap-2 text-lg font-bold items-center px-4 py-6"
+        >
+          <fa-icon [icon]="spinnerIcon" [spin]="true" [size]="'lg'"></fa-icon>
           <span> Loading...</span>
         </div>
       </div>
@@ -85,6 +88,7 @@ export class HomeComponent extends RxState<HomeState> {
   error$ = this.select('error');
   route = inject(ActivatedRoute);
   fetchAngularBooks: Observable<HomeState> = this.route.queryParams.pipe(
+    tap(() => this.set({ isLoading: true, books: undefined })),
     map((params) => params['q'] || 'angular'),
     switchMap((q) => this.bookService.searchBooks(q)),
     map((books) => ({ books, isLoading: false })),
